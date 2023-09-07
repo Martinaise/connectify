@@ -1,40 +1,119 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
+import {
+    Link
+} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Accueil = () => {
     // le chemin pour aller chercher une image ou video mis dans une variable
     const baseUrlFile = `${process.env.PUBLIC_URL}`
-    console.log("baseUrlFile", baseUrlFile)
+
+    const [formData, setFormData] = useState({
+        email: '',
+        sujet: '',
+        message: '',
+    });
+
+    const [errors, setErrors] = useState({
+        email: '',
+        sujet: '',
+    });
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const sujetRegex = /^[a-zA-Z0-9\s]+$/;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const validateEmail = (email) => {
+        return emailRegex.test(email);
+    };
+
+    const validateSujet = (sujet) => {
+        return sujetRegex.test(sujet);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const { email, sujet } = formData;
+
+        const newErrors = {};
+
+        if (!email) {
+            newErrors.email = 'Email is required';
+        } else if (!validateEmail(email)) {
+            newErrors.email = 'Invalid email address';
+        }
+
+        if (!sujet) {
+            newErrors.sujet = 'Sujet is required';
+        } else if (!validateSujet(sujet)) {
+            newErrors.sujet = 'Invalid sujet';
+        }
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+            // Form is valid, you can submit the data or perform other actions here
+            setTimeout(() => {
+                toast.success('👍Votre message a été  bien envoyé', {
+                    position: "top-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            });
+            setFormData({
+                email: '',
+                sujet: '',
+                message: '',
+            })
+        }
+    };
+
+
     return (
         <>
-            <header class="hero">
+            <ToastContainer />
+            <header className="hero">
 
-                <video autoPlay loop muted class="video-bg">
+                <video autoPlay loop muted className="video-bg">
                     <source src={`${baseUrlFile}/videos/fd_accueil.mp4`} type="video/mp4" />
                 </video>
                 <nav>
-                    <p class="logo">connectify</p>
+                    <p className="logo">connectify</p>
                     <ul>
-                        <li><a href="#" class="active">accueil</a></li>
-                        <li><a href="#">connexion</a></li>
-                        <li><a href="#">inscription</a></li>
+                        <li><a href="#" className="active">accueil</a></li>
+                        <li><Link to="/login">connexion</Link></li>
+                        <li><Link to="/inscription">inscription</Link></li>
                     </ul>
                 </nav>
-                <div class="content">
+                <div className="content">
                     <h1>connectify</h1>
                 </div>
             </header>
             <main>
-                <section class="welcome">
+                <section className="welcome">
                     <h2>Bienvenue</h2>
                     <p>Harmonisez vos passios,partagez vos émotions avec Connectify !</p>
                 </section>
 
-                <section class="actuality">
-                    <div class="actulity-block-image">
+                <section className="actuality">
+                    <div className="actulity-block-image">
                         <img src={`${baseUrlFile}/images/fd_actualite.jpg`} alt='jeune homme' />
                     </div>
-                    <div class="actuality-text">
+                    <div className="actuality-text">
                         <h2>Actualité</h2>
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -78,8 +157,8 @@ const Accueil = () => {
                         </p>
                     </div>
                 </section>
-                <section class="qui-sommes-nous">
-                    <div class="qui-sommes-nous-text">
+                <section className="qui-sommes-nous">
+                    <div className="qui-sommes-nous-text">
                         <h3>qui-sommes-nous</h3>
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -122,50 +201,59 @@ const Accueil = () => {
                             laborum labore eaque.
                         </p>
                     </div>
-                    <div class="qui-qui-sommes-nous-block-image">
+                    <div className="qui-qui-sommes-nous-block-image">
                         <img src={`${baseUrlFile}/images/fd_qsn.jpg`} alt='groupe de jeune' />
-
                     </div>
                 </section>
 
-                <section class="nous-contacter">
-                    <div class="nous-contacter-block-image">
-                    
+                <section className="nous-contacter">
+                    <div className="nous-contacter-block-image">
                         <img src={`${baseUrlFile}/images/fd_contact.jpg`} alt='enfant et casque' />
-                        
                     </div>
-                    <div class="nous-contacter-form">
-                        <h4>nous contacter ?</h4>
+                    <div className="nous-contacter-form">
+                        <h4 className='quisommesnous'>Nous Contacter ?</h4>
+                        <div class="containerform">
+                            <form onSubmit={handleSubmit}>
+                                <div class="formblockcontainer">
+                                    <label for="email">Email :</label>
+                                    <input type="text"
+                                        name="email"
+                                        id="email"
+                                        value={formData.email}
+                                        onChange={handleChange} />
+                                    {errors.email && <p>{errors.email}</p>}
+                                </div>
 
-                        <form action="Page Contact /">
-                            <label for="email">email</label>
+                                <div class="formblockcontainer">
+                                    <label for="sujet">Sujet :</label>
+                                    <input type="text"
+                                        name="sujet"
+                                        id="sujet"
+                                        value={formData.sujet}
+                                        onChange={handleChange} />
+                                    {errors.sujet && <p>{errors.sujet}</p>}
+                                </div>
+
+                                <div class="formblockcontainer">
+                                    <label for="message">Messsage :</label>
+                                    <textarea name="message" id="message" cols="30" rows="10" value={formData.message}
+                                        onChange={handleChange}></textarea>
+                                    <div class="formbtn">
+                                        <button>valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {/* <form action="Page Contact /">
+                            <label htmlFor="email">email</label>
                             <input type="text" id="email" name="email" placeholder="Entrez vôtre email" />
-                            <label for="subject">sujet</label> <textarea id="subject" name="subject" placeholder="Ecrivez vôtre sujet"></textarea>
-                            <label for="message">Message</label> <textarea id="message" name="message" placeholder="Ecrivez vôtre message"></textarea>
+                            <label htmlFor="subject">sujet</label> <textarea id="subject" name="subject" placeholder="Ecrivez vôtre sujet"></textarea>
+                            <label htmlFor="message">Message</label> <textarea id="message" name="message" placeholder="Ecrivez vôtre message"></textarea>
                             <input type="submit" value="Submit" />
-
-                        </form>
+                        </form> */}
                     </div>
                 </section>
 
-
-                <section class="nous-contacter">
-                    <div class="nous-contacter-block-image">
-                        <img src="./Page Contact /fd_contact.jpg " alt="enfant et casque" />
-                    </div>
-                    <div class="nous-contacter-form">
-                        <h4>nous contacter ?</h4>
-
-                        <form action="Page Contact /">
-                            <label for="email">email</label>
-                            <input type="text" id="email" name="email" placeholder="Entrez vôtre email" />
-                            <label for="subject">sujet</label> <textarea id="subject" name="subject" placeholder="Ecrivez vôtre sujet"></textarea>
-                            <label for="message">Message</label> <textarea id="message" name="message" placeholder="Ecrivez vôtre message"></textarea>
-                            <input type="submit" value="Submit" />
-
-                        </form>
-                    </div>
-                </section>
             </main>
             <footer></footer>
         </>

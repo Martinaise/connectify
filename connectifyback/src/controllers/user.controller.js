@@ -3,11 +3,12 @@ import mongoose from "mongoose"
 
 
 const objectID = mongoose.Types.ObjectId
-
+/*GET Pour obtenirla liste de tous les utilisateurs de la base de données.*/
 export const getAllUsers = async (req, res) => {
     const users = await userModel.find({}).select('-password')
     res.status(200).json(users)
 }
+/*GET pour obtenir toutes les informations d'un utilisateurpécifique en fonction de son ID.*/
 
 export const userInfo = async (req, res) => {
     if (!objectID.isValid(req.params.id)) {
@@ -37,6 +38,7 @@ export const userInfo = async (req, res) => {
 
 
 }
+/* PUT pour mettre à jour les informations d'un utilisateur spécifique en fonction de son ID.valide en utilisant */
 export const updateUser = async (req, res) => {
     if (!objectID.isValid(req.params.id)) {
         return res.status(400).json({
@@ -69,6 +71,7 @@ export const updateUser = async (req, res) => {
         })
     }
 }
+// DELETE pour supprimer un utilisateur spécifique en fonction de son ID.
 export const deleteUser = async (req,res)=>{
     if (!objectID.isValid(req.params.id)) {
         return res.status(400).json({

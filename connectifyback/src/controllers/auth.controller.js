@@ -33,13 +33,14 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
     // On destructure l'email et le password saisies par l'utilisateur et  qui sont envoyés via  la requete
-    const { email, password } = req.body 
+    const { email, password } = req.body
     try {
         const user = await userModel.login(email, password);
         const token = createToken(user._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge })
         res.status(200).json({
-            user: user._id
+            user: user,
+            token
         })
     } catch (err) {
         const errors = signInErrors(err);

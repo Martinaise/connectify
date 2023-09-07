@@ -8,8 +8,20 @@ import cookieParser from 'cookie-parser'
 import { checkUserifConnected, requireAuthentication } from "./src/middleware/auth.middleware.js";
 import { UserPostRouter } from "./src/routes/post.routes.js";
 
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    allowedHeaders: ['sessionId', 'Content-Type'],
+    exposedHeaders: ['sessionId'],
+    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+    preflightContinue: false,
+    allowedHeaders: [
+        'Content-Type',
+    ]
+}
 
 const app = express();
+app.use(cors(corsOptions));
 dotenv.config()
 app.use(express.json())
 app.use(cors())

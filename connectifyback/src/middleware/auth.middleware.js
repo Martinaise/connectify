@@ -3,11 +3,11 @@
 
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/Users.js";
-
+// on extrait de token des cookie
 export const checkUserifConnected = async (req, res, next) => {
     const token = req.cookies.jwt
     if (token) {
-
+// on verifie si token est valide
         const isverify = jwt.verify(token, process.env.TOKEN_SECRET)
 
         if (!isverify) {

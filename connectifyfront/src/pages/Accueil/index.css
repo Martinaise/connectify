@@ -92,15 +92,14 @@ nav ul li a {
   font-weight: 600;
 }
 .actuality {
-  
   display: grid;
   grid-template-columns: 1fr 1fr;
-  
+
   height: 100vh;
 }
 .actuality-text {
   padding: 30px;
-  
+
   background-color: #1d5a43;
   display: flex;
   flex-direction: column;
@@ -134,30 +133,75 @@ nav ul li a {
   background-color: #1d5a43;
 }
 .qui-qui-sommes-nous-block-image {
- 
 }
 .qui-qui-sommes-nous-block-image img {
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
-.nous-contacter{
+.nous-contacter {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 210px 0;
   height: 100vh;
-
 }
-.nous-contacter-block-image img{
+.nous-contacter-block-image img {
   width: 100%;
   height: 100%;
   object-fit: fill;
-
-
 }
-.nous-contacter-form{
+.nous-contacter-form {
   background-color: #1d5a43;
-  
-
 }
 
+.containerform {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 700px;
+  height: 700px;
+  margin: 0 auto;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0);
+  padding: 10px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.containerform form {
+  width: 90%;
+}
+.formblockcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.formblockcontainer label {
+  color: #fff;
+  margin-top: 15px;
+}
+.formblockcontainer input {
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+}
+.formblockcontainer textarea {
+  border: none;
+  min-width: 100px;
+  max-width: 100%;
+  height: 400px;
+}
+.formbtn {
+  margin: 7px auto;
+}
+.formbtn button {
+  border: none;
+  font-size: 1.9rem;
+  padding: 5px 20px;
+  border-radius: 5px;
+  background-color: #daca3bff;
+}
+.quisommesnous {
+  font-size: 3.5rem;
+  text-align: center;
+  color: #daca3bff;
+  margin: 70px 0;
+}

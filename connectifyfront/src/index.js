@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { mainStore } from "./redux"
+// import { mainStore } from "./redux"
+import { store } from './redux/store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* provider permet de mettre les slides  a disposition des composants */}
-    <Provider store={mainStore}>
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>
